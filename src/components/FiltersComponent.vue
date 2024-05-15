@@ -51,11 +51,9 @@ label {
 }
 
 .form-control {
-    width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 3px;
-    box-sizing: border-box;
 }
 
 .btn {

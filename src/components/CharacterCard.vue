@@ -36,11 +36,11 @@ export default {
 }
 
 .card-image {
-    width: 40%;
+    width: 200px;
 }
 
 .card-body {
-    width: 60%;
+    width: 80%;
     text-align: center;
     padding: 5px;
 }

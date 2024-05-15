@@ -4,7 +4,8 @@
       <h1>Rick and Morty Characters</h1>
     </header>
     <main class="main">
-      <FiltersComponent @search="handleSearch" />
+      <FiltersComponent @search="handleFilter" />
+      <CharacterPagination :totalPages="totalPages" @page-changed="handlePagination" />
       <CharacterCardList :cards="cards" />
     </main>
   </div>
@@ -13,30 +14,50 @@
 <script>
 import CharacterCardList from './components/CharacterCardList.vue';
 import FiltersComponent from './components/FiltersComponent.vue';
+import CharacterPagination from './components/CharacterPagination.vue';
 import { fetchApi } from './helpers/fetchApi';
+
 
 export default {
   name: 'App',
   components: {
     CharacterCardList,
-    FiltersComponent
+    FiltersComponent,
+    CharacterPagination
   },
   data() {
     return {
-      cards: []
+      cards: [],
+      name: '',
+      status: '',
+      page: 1,
+      totalPages: 0
     };
   },
-  mounted() {
-    this.handleSearch({ name: '', status: '' });
+  async mounted() {
+    try {
+      const data = await fetchApi();
+      this.cards = data.results;
+      this.totalPages = data.info.pages;
+    } catch (error) {
+      console.error(error.message);
+      this.cards = [];
+    }
   },
   methods: {
-    async handleSearch(filters) {
-      try {
-        const data = await fetchApi(filters);
-        this.cards = data;
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
+    async handleFilter(filters) {
+      this.name = filters.name;
+      this.status = filters.status;
+      this.page = 1;
+      const data = await fetchApi(this.name, this.status, this.page);
+      this.cards = data.results;
+      this.totalPages = data.info.pages;
+    },
+    async handlePagination(page) {
+      this.page = page;
+      const data = await fetchApi(this.name, this.status, this.page);
+      this.cards = data.results;
+      this.totalPages = data.info.pages;
     }
   }
 };
@@ -57,7 +78,7 @@ export default {
 .main {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
   flex-direction: column;
 }
 </style>

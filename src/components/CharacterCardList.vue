@@ -26,7 +26,7 @@ export default {
 <style scoped>
 .card-list {
     display: grid;
-    grid-template-columns: repeat(4, minmax(400px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     gap: 20px;
 }
 </style>
