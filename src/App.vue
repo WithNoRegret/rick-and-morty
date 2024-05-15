@@ -1,26 +1,63 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app">
+    <header class="header">
+      <h1>Rick and Morty Characters</h1>
+    </header>
+    <main class="main">
+      <FiltersComponent @search="handleSearch" />
+      <CharacterCardList :cards="cards" />
+    </main>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import CharacterCardList from './components/CharacterCardList.vue';
+import FiltersComponent from './components/FiltersComponent.vue';
+import { fetchApi } from './helpers/fetchApi';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    CharacterCardList,
+    FiltersComponent
+  },
+  data() {
+    return {
+      cards: []
+    };
+  },
+  mounted() {
+    this.handleSearch({ name: '', status: '' });
+  },
+  methods: {
+    async handleSearch(filters) {
+      try {
+        const data = await fetchApi(filters);
+        this.cards = data;
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
   }
-}
+};
 </script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: Arial, sans-serif;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+}
+
+.header {
+  background-color: #333;
+  color: #fff;
+  padding: 20px 0;
+}
+
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 </style>
