@@ -42,6 +42,7 @@ export default {
 .card-body {
     width: 60%;
     text-align: center;
+    padding: 5px;
 }
 
 .card h2 {
