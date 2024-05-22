@@ -1,6 +1,6 @@
 <template>
     <div class="pagination">
-        <button class="prev" @click="toPage(currentPage - 1)" :disabled="currentPage === 1">&#8249;</button>
+        <button class="prev" @click="toPage(currentPage - 1)" :disabled="currentPage <= 1">&#8249;</button>
         <span id="currentPage">{{ currentPage }}</span> / <span id="totalPages">{{ totalPages }}</span>
         <button class="next" @click="toPage(currentPage + 1)" :disabled="currentPage === totalPages">&#8250;</button>
     </div>
@@ -17,14 +17,13 @@ export default {
     methods: {
         toPage(pageNumber) {
             if (pageNumber > 0 && pageNumber <= this.totalPages) {
-                this.currentPage = pageNumber;
-                this.$emit('page-changed', this.currentPage);
+                this.$emit('page-changed', pageNumber);
             }
         }
     },
     props: {
         totalPages: Number,
-        required: true
+        currentPage: Number
     },
 }
 </script>

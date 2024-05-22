@@ -5,7 +5,7 @@
     </header>
     <main class="main">
       <FiltersComponent @search="handleFilter" />
-      <CharacterPagination :totalPages="totalPages" @page-changed="handlePagination" />
+      <CharacterPagination :totalPages="totalPages" :currentPage="page" @page-changed="handlePagination" />
       <CharacterCardList :cards="cards" />
     </main>
   </div>
@@ -30,18 +30,21 @@ export default {
       cards: [],
       name: '',
       status: '',
-      page: 1,
+      page: 0,
       totalPages: 0
     };
   },
   async mounted() {
     try {
       const data = await fetchApi();
+      this.page = 1;
       this.cards = data.results;
       this.totalPages = data.info.pages;
     } catch (error) {
       console.error(error.message);
       this.cards = [];
+      this.page = 0;
+      this.totalPages = 0;
     }
   },
   methods: {
@@ -49,15 +52,39 @@ export default {
       this.name = filters.name;
       this.status = filters.status;
       this.page = 1;
-      const data = await fetchApi(this.name, this.status, this.page);
-      this.cards = data.results;
-      this.totalPages = data.info.pages;
+      try {
+        const data = await fetchApi(this.name, this.status, this.page);
+        if (!data.results.length) {
+          this.page = 0;
+          this.totalPages = 0;
+          this.cards = [];
+        }
+        this.cards = data.results;
+        this.totalPages = data.info.pages;
+      } catch (error) {
+        console.error(error.message);
+        this.cards = [];
+        this.page = 0;
+        this.totalPages = 0;
+      }
     },
     async handlePagination(page) {
       this.page = page;
-      const data = await fetchApi(this.name, this.status, this.page);
-      this.cards = data.results;
-      this.totalPages = data.info.pages;
+      try {
+        const data = await fetchApi(this.name, this.status, this.page);
+        if (!data.results.length) {
+          this.page = 0;
+          this.totalPages = 0;
+          this.cards = [];
+        }
+        this.cards = data.results;
+        this.totalPages = data.info.pages;
+      } catch (error) {
+        console.error(error.message);
+        this.cards = [];
+        this.page = 0;
+        this.totalPages = 0;
+      }
     }
   }
 };

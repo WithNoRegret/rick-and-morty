@@ -8,6 +8,7 @@
             <div class="form-group">
                 <label for="status">Status:</label>
                 <select id="status" v-model="status" class="form-control">
+                    <option value="">All</option>
                     <option value="alive">Alive</option>
                     <option value="dead">Dead</option>
                     <option value="unknown">Unknown</option>
@@ -24,7 +25,7 @@ export default {
     data() {
         return {
             name: '',
-            status: 'alive'
+            status: ''
         };
     },
     methods: {
