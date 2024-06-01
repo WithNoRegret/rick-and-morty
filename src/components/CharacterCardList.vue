@@ -1,7 +1,9 @@
 <template>
     <div class="card-list">
         <div v-for="card in cards" :key="card.id">
-            <CharacterCard :card="card" />
+            <RouterLink :to="`/character/${card.id}`">
+                <CharacterCard :card="card" />
+            </RouterLink>
         </div>
     </div>
 </template>
@@ -28,5 +30,6 @@ export default {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     gap: 20px;
+    overflow-x: hidden;
 }
 </style>

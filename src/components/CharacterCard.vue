@@ -35,6 +35,11 @@ export default {
     max-height: 150px;
 }
 
+.card:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
 .card-image {
     width: 200px;
 }

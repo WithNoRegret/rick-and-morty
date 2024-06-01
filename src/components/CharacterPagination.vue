@@ -9,11 +9,6 @@
 <script>
 export default {
     name: 'CharacterPagination',
-    data() {
-        return {
-            currentPage: 1
-        };
-    },
     methods: {
         toPage(pageNumber) {
             if (pageNumber > 0 && pageNumber <= this.totalPages) {

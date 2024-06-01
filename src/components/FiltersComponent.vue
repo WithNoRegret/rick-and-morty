@@ -1,5 +1,5 @@
 <template>
-    <div class="filter-container">
+    <div class="filters-container">
         <form @submit.prevent="search" class="filter-form">
             <div class="form-group">
                 <label for="name">Name:</label>
@@ -37,10 +37,18 @@ export default {
 </script>
 
 <style scoped>
+.filters-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .filter-form {
     background-color: #f5f5f5;
     padding: 20px;
     margin-bottom: 20px;
+    text-align: center;
+
 }
 
 .form-group {
